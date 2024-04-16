@@ -1,0 +1,5 @@
+App\Entity\Offer:
+  offer_{1..150}:
+     price: <numberBetween(10, 100)>
+     jobber: "@jobber_<numberBetween(1, 10)>"
+     job: "@job_<numberBetween(1, 50)>"

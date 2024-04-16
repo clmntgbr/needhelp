@@ -1,0 +1,5 @@
+App\Entity\Job:
+  job_{1..50}:
+     title: <jobTitle()>
+     description: <paragraph()>
+     customer: "@customer_<numberBetween(1, 20)>"

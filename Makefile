@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_NAME = back
+PROJECT_NAME = needhelp
 
 DOCKER_COMPOSE = docker-compose -p $(PROJECT_NAME)
 
@@ -46,7 +46,7 @@ init: install update
 ## Start containers
 start:
 	@$(DOCKER_COMPOSE) up -d
-	@echo "admin is available here: 'https://back.traefik.me'"
+	@echo "admin is available here: 'http://localhost:8070'"
 
 ## Stop containers
 stop:
@@ -55,8 +55,7 @@ stop:
 restart: stop start
 
 ## Init project
-init: install update
-
+init: install update drop create migrate fixture
 
 cache:
 	$(PHP) rm -r var/cache
@@ -81,15 +80,28 @@ install:
 update:
 	$(PHP) composer update
 
-## QA
-cs-fixer:
-	docker run --init -it --rm -v $(PWD):/project -w /project jakzal/phpqa php-cs-fixer fix ./src --rules=@Symfony
+## Drop database
+drop:
+	$(PHP) bin/console doctrine:database:drop --if-exists --force
 
-cs-fixer-dry:
-	docker run --init -it --rm -v $(PWD):/project -w /project jakzal/phpqa php-cs-fixer fix ./src --rules=@Symfony --dry-run
+## Load fixtures
+fixture:
+	$(PHP) bin/console hautelook:fixtures:load --env=dev --no-interaction
 
-phpcpd:
-	docker run --init -it --rm -v $(PWD):/project -w /project jakzal/phpqa phpcpd ./src
+## Create database
+create:
+	$(PHP) bin/console doctrine:database:create --if-not-exists
 
-phpstan:
-	docker run --init -it --rm -v $(PWD):/project -w /project jakzal/phpqa phpstan analyse ./src --level=5
+schema:
+	$(PHP) bin/console doctrine:schema:update -f --complete
+
+## Making migration file
+migration:
+	$(PHP) bin/console make:migration
+
+## Applying migration
+migrate:
+	$(PHP) bin/console doctrine:migration:migrate --no-interaction
+
+entity:
+	$(PHP) bin/console make:entity

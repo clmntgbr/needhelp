@@ -1,0 +1,6 @@
+App\Entity\Jobber:
+  jobber_{1..10}:
+     name: <name()>
+     phone: <phoneNumber()>
+     email: <email()>
+     address: <address()>

@@ -32,16 +32,11 @@ services:
       - HTTPS_METHOD=noredirect
     networks:
       - service
-      - traefik
     volumes:
       - ./public:/srv/app/public:ro
       - ./.deployment/docker/containers/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik"
-      - "traefik.http.routers.${PROJECT_NAME}.rule=Host(`back.traefik.me`)"
-      - "traefik.http.routers.${PROJECT_NAME}.tls=true"
-      - "traefik.http.services.${PROJECT_NAME}.loadbalancer.server.port=8080"
+    ports:
+      - 8070:8080
 
   database:
     container_name: ${PROJECT_NAME}_database
@@ -55,18 +50,9 @@ services:
     volumes:
       - database_docker:/var/lib/mysql
 
-  qa:
-    container_name: ${PROJECT_NAME}_qa
-    image: jakzal/phpqa:latest
-
 volumes:
   database_docker: {}
-  certs: {}
 
 networks:
   service:
     name: service
-    external: true
-  traefik:
-    name: traefik
-    external: true

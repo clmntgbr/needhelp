@@ -1,35 +1,31 @@
-# Symfony Docker Template
+# Symfony NeedHelp Test
 
-A Symfony 6.1 docker template base project using PHP8.1, Nginx, MariaDb, RabbitMQ, MailDev.
+Vous êtes chargé(e) de développer une plateforme similaire à NeedHelp.com. Cette plateforme met en
+relation des personnes ayant besoin d'aide pour des petits travaux (Customer) avec des prestataires de
+services (Jobber).
 
 ## Getting Started
 
-1. Clone https://github.com/clmntgbr/setup and run `make start`
-2. Clone this repo
-3. Run `cp .env.dist .env`
-4. Edit the .env file to change PROJECT_NAME variable for renaming containers & directory 
-5. Edit Makefile and replace PROJECT_NAME variable same as in the .env file.
-6. Run `make init` to initialize the project
-7. You can run `make help` to see all commands available
+1. Clone this repo
+2. Run `cp .env.dist .env`
+3. Run `make start` to initialize the project
+4. Run `make init` to initialize the project
+5. You can run `make help` to see all commands available
 
 ## Overview
 
-Open `https://traefik.traefik.me/dashboard/#/` in your favorite web browser for traefik dashboard
-
-Open `https://maildev.traefik.me` in your favorite web browser for maildev
-
-Open `https://rabbitmq.traefik.me` in your favorite web browser for rabbitmq
-
-Open `https://back.traefik.me` in your favorite web browser for symfony app
+Open `http://localhost:8070/admin` in your favorite web browser for symfony app
 
 ## Features
 
 * PHP 8.3.2
 * Nginx 1.20
-* RabbitMQ 3-management
 * MariaDB 10.4.19
-* MailDev
-* Traefik latest
 * Symfony 7.0.2
 
 **Enjoy!**
+
+**Improvements**
+
+- Adding security on calls with api token
+- Adding role to avoid jobber to accept offer for example, customer can only see jobs they posted and many more business rules.
