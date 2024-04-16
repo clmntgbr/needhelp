@@ -12,6 +12,8 @@ services (Jobber).
 4. Run `make init` to initialize the project
 5. You can run `make help` to see all commands available
 
+You can use `make php` to access php container, `make node` and some others
+
 ## Overview
 
 Open `http://localhost:8070/admin` in your favorite web browser for symfony app
