@@ -5,6 +5,7 @@ namespace App\EventListener;
 use App\Entity\Job;
 use App\Entity\Offer;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 
 class OfferChangedNotifier
@@ -16,6 +17,21 @@ class OfferChangedNotifier
     }
 
     public function postUpdate(PostUpdateEventArgs $event): void
+    {
+        $entity = $event->getObject();
+
+        if (!$entity instanceof Offer) {
+            return;
+        }
+
+        if ($entity->getStatus() === Offer::ACCEPTED) {
+            $entity->getJob()->setStatus(Job::IN_PROGRESS);
+            $this->em->persist($entity);
+            $this->em->flush();
+        }
+    }
+
+    public function postPersist(PostPersistEventArgs $event): void
     {
         $entity = $event->getObject();
 

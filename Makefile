@@ -46,7 +46,8 @@ init: install update
 ## Start containers
 start:
 	@$(DOCKER_COMPOSE) up -d
-	@echo "admin is available here: 'http://localhost:8070'"
+	@echo "admin is available here: 'http://localhost:8070/admin'"
+	@echo "client is available here: 'http://localhost:8071'"
 
 ## Stop containers
 stop:
@@ -59,6 +60,9 @@ init: install update drop create migrate fixture
 
 cache:
 	$(PHP) rm -r var/cache
+
+node:
+	@$(DOCKER_COMPOSE) exec node sh
 
 ## Entering php shell
 php:

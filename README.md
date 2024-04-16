@@ -15,6 +15,7 @@ services (Jobber).
 ## Overview
 
 Open `http://localhost:8070/admin` in your favorite web browser for symfony app
+Open `http://localhost:8071` in your favorite web browser for the client app
 
 ## Features
 
@@ -29,3 +30,4 @@ Open `http://localhost:8070/admin` in your favorite web browser for symfony app
 
 - Adding security on calls with api token
 - Adding role to avoid jobber to accept offer for example, customer can only see jobs they posted and many more business rules.
+- Adding tests with PHPUnit & Behat

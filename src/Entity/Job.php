@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\ApiResource\Controller\GetAddressCities;
+use App\ApiResource\CustomJobs;
 use App\Entity\Traits\IdentifyTraits;
 use App\Repository\JobRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,6 +23,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: JobRepository::class)]
+#[ApiFilter(SearchFilter::class, properties: ['status' => 'exact'])]
 #[ApiResource(
     operations: [
         new Patch(
@@ -27,8 +32,17 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new Get(
             normalizationContext: ['groups' => ['read_job']]
         ),
+        new GetCollection(
+            uriTemplate: '/custom/jobs',
+            controller: CustomJobs::class,
+            paginationEnabled: false,
+            normalizationContext: ['skip_null_values' => false, 'groups' => ['read_job']],
+            read: false,
+            name: 'custom_jobs',
+        ),
         new Delete(),
         new GetCollection(
+            paginationEnabled: false,
             normalizationContext: ['groups' => ['read_job']]
         ),
         new Post(),
